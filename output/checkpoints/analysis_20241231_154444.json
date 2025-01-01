@@ -1,0 +1,150 @@
+{
+  "response_patterns": {
+    "average_response_time": 11.963409961685823,
+    "median_response_time": 2.7333333333333334,
+    "average_thread_duration": 208.16333333333333,
+    "participant_response_times": {
+      "Christine Moyer_Robert Moyer": {
+        "average": 10.61630434782609,
+        "count": 46
+      },
+      "Christine Moyer_Christine Moyer": {
+        "average": 17.040625,
+        "count": 16
+      },
+      "Robert Moyer_Robert Moyer": {
+        "average": 11.192666666666666,
+        "count": 25
+      }
+    }
+  },
+  "topic_patterns": {
+    "topic_frequencies": {
+      "re: condo sale": 1,
+      "re: expenses prior to oct 31": 6,
+      "sunday dec 8": 1,
+      "re: sunday dec 8": 6,
+      "monthly transfer": 1,
+      "re: monthly transfer": 2,
+      "re: safeco car insurance/split": 2,
+      "house repairs/ tree/yard": 1,
+      "saas tuition december": 1,
+      "re: hole in wall": 1,
+      "re: saas tuition december": 2,
+      "max passport / fees": 1,
+      "re: max passport / fees": 4,
+      "adrian": 1,
+      "re: what happened today": 9,
+      "it has not been entered into court": 1,
+      "re: it has not been entered into court": 2,
+      "saas backcountry": 1,
+      "re: saas backcountry": 10,
+      "happy anniversary": 1,
+      "re: happy anniversary": 1,
+      "safeco/fidelity": 1,
+      "re: safeco/fidelity": 12,
+      "drop off": 1,
+      "re: drop off": 3,
+      "re: house repairs/ tree/yard": 2,
+      "veracross payment": 1,
+      "trip authorization": 1,
+      "re: trip authorization": 1,
+      "developer weeks": 1,
+      "re: developer weeks": 2,
+      "adrian today": 1,
+      "re: adrian today": 3,
+      "connor": 1,
+      "re: connor": 1,
+      "re: adrian": 18,
+      "health insurance": 1,
+      "re: health insurance": 2,
+      "fidelity": 1,
+      "re: fidelity": 1,
+      "seahawks tickets - dec 22": 1,
+      "re: seahawks tickets - dec 22": 3,
+      "re: basketball": 4,
+      "breakthrough moment": 1,
+      "re: breakthrough moment": 5,
+      "mortgage payment": 1,
+      "parent coordinator": 1,
+      "re: parent coordinator": 1,
+      "extra mortgage payment": 1,
+      "fidelity acct - msft dividends and share deposit": 1,
+      "re: fidelity acct - msft dividends and share deposit": 5,
+      "re: extra mortgage payment": 4,
+      "re: running list": 6,
+      "adrian\u2019s marh": 1,
+      "re: email will erectile dysfunction listings": 4,
+      "re: adrian\u2019s marh": 2,
+      "re: adrian\u2019s math": 6,
+      "signal?": 1,
+      "re: signal?": 2,
+      "alan": 1,
+      "re: alan": 4,
+      "fidelity - msft dividend transfer": 1,
+      "re: fidelity - msft dividend transfer": 12,
+      "re: no response requested": 12,
+      "re: ad is asleep": 5,
+      "nana christmas cards": 1,
+      "re: seahawks ticket sale": 1,
+      "thursday": 1,
+      "re: thursday": 1,
+      "equalization": 1
+    },
+    "topic_transitions": {
+      "how to explain to adrian what happened today in a way that he can understand": 9,
+      "me": 9,
+      "adrian never being able to have more time with his father": 9,
+      "spending time with me until he": 9,
+      "what he wants or does": 9,
+      "what he does": 9,
+      "what you did in mediation": 8,
+      "april timeframe": 7,
+      "and communications with me": 7,
+      "that": 5,
+      "really doubting your identity": 5,
+      "70k": 5,
+      "why": 3,
+      "game tomorrow night": 6,
+      "your sarcastic comments": 2,
+      "starbucks\n page 206 of 358\non 12": 1,
+      "this and you refused": 2,
+      "it": 5,
+      "the lawyers leading this": 3,
+      "your proposal": 1,
+      "all the ways i want to help": 3,
+      "therapy": 3,
+      "you making all the changes that you said i made to our accounts": 3,
+      "major educational decisions": 6,
+      "you had at this exact time last week": 4,
+      "the new traditions": 11,
+      "their plans": 3,
+      "with the effectiveness of our communications since we can": 3,
+      "adrian": 3,
+      "visits misrepresents my efforts and damages my relationship with him": 3,
+      "growing old together": 1,
+      "is": 1
+    }
+  },
+  "participant_patterns": {
+    "interactions": {
+      "Christine Moyer": {
+        "Robert Moyer": 23,
+        "Christine Moyer": 16
+      },
+      "Robert Moyer": {
+        "Christine Moyer": 23,
+        "Robert Moyer": 25
+      }
+    },
+    "initiatives": {
+      "Robert Moyer": 110,
+      "Christine Moyer": 90
+    },
+    "responses": {
+      "Robert Moyer": 48,
+      "Christine Moyer": 39
+    }
+  },
+  "timestamp": "2024-12-31T15:44:44.699244"
+}

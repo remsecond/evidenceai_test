@@ -1,0 +1,16 @@
+### EvidenceAI: Workflow Analysis and Development
+
+**Project Overview:**
+EvidenceAI automates document workflows like Our Family Wizard PDFs. We are implementing threading, relationship analysis, and topic detection modules.
+
+**Current Focus:**
+The workflow script will identify the last completed stage. If continuing, the next stage will likely involve threading logic to group parsed messages into structured threads.
+
+**Immediate Task:**
+1. Validate parsed message data.
+2. Implement threading logic to organize messages by parent-child relationships.
+3. Prepare threaded outputs for the next stage: relationship analysis.
+
+**Next Steps:**
+- Run the script to determine progress.
+- Confirm continuation from the last checkpoint or start fresh.

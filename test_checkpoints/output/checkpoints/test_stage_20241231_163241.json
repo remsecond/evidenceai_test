@@ -1,0 +1,14 @@
+{
+  "stage": "test_stage",
+  "data": {
+    "test": "data",
+    "number": 42
+  },
+  "metadata": {
+    "test_meta": "metadata"
+  },
+  "timestamp": "2024-12-31T16:32:41.158896",
+  "previous_checkpoint": null,
+  "checkpoint_id": "44f5f82bc88b",
+  "checksum": "44b2d98be8cd4ea90a8af29594256ec0ba1e8562645995f17f1789514fb1a558"
+}

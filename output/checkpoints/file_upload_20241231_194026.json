@@ -1,0 +1,44 @@
+{
+  "stage": "file_upload",
+  "data": {
+    "filename": "OFW_Messages_Report_Dec.pdf",
+    "file_size": 943408,
+    "created_time": "2024-12-30T20:52:40.483403",
+    "modified_time": "2024-12-30T19:16:25.331519",
+    "file_extension": ".pdf",
+    "processing_id": "b39624666c98",
+    "mime_type": "application/pdf",
+    "extraction_error": "'FileProcessor' object has no attribute '_extract_pdf_metadata'",
+    "is_ofw_export": true,
+    "ofw_metadata": {
+      "message_count": null,
+      "timezone": null,
+      "generated_date": null,
+      "participants": {
+        "parents": [],
+        "children": [],
+        "third_party": []
+      }
+    },
+    "ofw_extraction_error": "name 're' is not defined",
+    "file_hash": "aa65ea068d559f495089f727bebb2d439bcf1021c14b7f1458a9f18f03467d72",
+    "validation_results": {
+      "is_valid": true,
+      "warnings": [
+        "Could not extract message count",
+        "No parent information found",
+        "Metadata extraction error: 'FileProcessor' object has no attribute '_extract_pdf_metadata'"
+      ],
+      "errors": []
+    }
+  },
+  "metadata": {
+    "processing_stage": "initial_upload",
+    "processor_version": "1.0.0",
+    "timestamp": "2024-12-31T19:40:26.295433"
+  },
+  "timestamp": "2024-12-31T19:40:26.295433",
+  "previous_checkpoint": null,
+  "checkpoint_id": "d6f6e6df4e81",
+  "checksum": "32c134446f57c8af9481db9fcaa15ebabf6dbc7f1753bb9121629766f1f2be1e"
+}

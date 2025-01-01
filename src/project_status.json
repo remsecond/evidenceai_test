@@ -1,0 +1,24 @@
+{
+    "project_overview": {
+        "name": "EvidenceAI",
+        "current_phase": "PDF_PARSER",
+        "modules": {
+            "parsing": {
+                "status": "in_progress",
+                "current_focus": true
+            },
+            "threading": {
+                "status": "pending",
+                "current_focus": false
+            },
+            "relationship_analysis": {
+                "status": "pending",
+                "current_focus": false
+            },
+            "topic_detection": {
+                "status": "pending",
+                "current_focus": false
+            }
+        }
+    }
+}
