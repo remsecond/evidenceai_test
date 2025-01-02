@@ -1,0 +1,5 @@
+Git Hub Token: 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
+
+Brave Search: BSADBsDtuMXi1C6fHL3DBd2wuLvBPES
+
+claude-desktop-config.json

@@ -1,0 +1,36 @@
+{
+  "status": "success",
+  "filename": "OFW_Messages_Report_Dec.pdf",
+  "timestamp": "2025-01-01T09:04:45.714914",
+  "stages": {
+    "parsing": {
+      "status": "success",
+      "message_count": 287
+    },
+    "threading": {
+      "status": "success",
+      "thread_count": 56
+    },
+    "validation": {
+      "status": "warnings",
+      "error_count": 4,
+      "warning_count": 1
+    }
+  },
+  "processing_time": 2.863744,
+  "statistics": {
+    "messages": 287,
+    "threads": 56,
+    "thread_stats": {
+      "total_threads": 56,
+      "total_messages": 276,
+      "total_participants": 229,
+      "avg_thread_depth": 2.142857142857143,
+      "avg_messages_per_thread": 4.928571428571429,
+      "time_span": {
+        "start": "2024-12-01T01:02:00",
+        "end": "2024-12-30T19:14:00"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+[
+    {
+        "thread_id": "thread_001",
+        "created_at": "2025-01-01T10:00:00Z",
+        "messages": [
+            {
+                "id": "msg_001",
+                "content": "Initial feature request for data processing pipeline",
+                "author": "user123",
+                "timestamp": "2025-01-01T10:00:00Z",
+                "type": "initial_request",
+                "sentiment": "positive",
+                "topics": ["feature_request", "technical_discussion"],
+                "tags": ["needs_review"]
+            },
+            {
+                "id": "msg_002",
+                "content": "Adding technical specifications for implementation",
+                "author": "dev456",
+                "timestamp": "2025-01-01T10:30:00Z",
+                "type": "response",
+                "sentiment": "neutral",
+                "topics": ["technical_discussion"],
+                "tags": ["in_progress"]
+            }
+        ],
+        "status": "open",
+        "category": "feature_request",
+        "summary": {
+            "thread_id": "thread_001",
+            "initial_request": "Initial feature request for data processing pipeline",
+            "message_count": 2,
+            "last_update": "2025-01-01T10:30:00Z",
+            "status": "open",
+            "participants": ["user123", "dev456"]
+        }
+    }
+]

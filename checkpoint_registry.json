@@ -1,0 +1,30 @@
+{
+  "last_update": "2025-01-01T09:04:48.593000",
+  "current_stage": "threading_validation",
+  "pipeline_status": {
+    "messages_processed": 287,
+    "threads_identified": 56,
+    "success_rate": 98.6,
+    "last_issues": [
+      "Circular references in 4 threads",
+      "Thread depth (11) exceeds threshold",
+      "Participant deduplication needed"
+    ]
+  },
+  "checkpoints": [
+    {
+      "timestamp": "2025-01-01T09:04:48.593000",
+      "stage": "threading_validation",
+      "status": {
+        "message_count": 287,
+        "thread_count": 56,
+        "success_rate": 98.6,
+        "issues": [
+          "Circular references in 4 threads",
+          "Thread depth (11) exceeds threshold",
+          "Participant deduplication needed"
+        ]
+      }
+    }
+  ]
+}

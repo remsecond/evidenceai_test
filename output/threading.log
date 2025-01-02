@@ -1,0 +1,33 @@
+2025-01-01 09:02:37,946 - src.integration - INFO - Starting processing of OFW_Messages_Report_Dec.pdf
+2025-01-01 09:02:37,946 - src.integration - INFO - Stage 1: Parsing PDF
+2025-01-01 09:02:40,817 - src.integration - INFO - Stage 2: Threading messages
+2025-01-01 09:02:40,819 - src.integration - INFO - Stage 3: Validating results
+2025-01-01 09:02:40,826 - src.integration - INFO - Completed processing of OFW_Messages_Report_Dec.pdf
+2025-01-01 09:03:41,100 - src.integration - INFO - Starting processing of OFW_Messages_Report_Dec.pdf
+2025-01-01 09:03:41,101 - src.integration - INFO - Stage 1: Parsing PDF
+2025-01-01 09:03:43,865 - src.integration - INFO - Stage 2: Threading messages
+2025-01-01 09:03:43,892 - src.integration - ERROR - Error processing OFW_Messages_Report_Dec.pdf: Object of type ThreadMetadata is not JSON serializable
+Traceback (most recent call last):
+  File "C:\Users\robmo\OneDrive\Documents\evidenceai_test\src\integration.py", line 91, in process_file
+    self._save_checkpoint('threading', {
+  File "C:\Users\robmo\OneDrive\Documents\evidenceai_test\src\integration.py", line 151, in _save_checkpoint
+    json.dump(data, f, indent=2)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type ThreadMetadata is not JSON serializable
+2025-01-01 09:04:45,714 - src.integration - INFO - Starting processing of OFW_Messages_Report_Dec.pdf
+2025-01-01 09:04:45,714 - src.integration - INFO - Stage 1: Parsing PDF
+2025-01-01 09:04:48,547 - src.integration - INFO - Stage 2: Threading messages
+2025-01-01 09:04:48,576 - src.integration - INFO - Stage 3: Validating results
+2025-01-01 09:04:48,593 - src.integration - INFO - Completed processing of OFW_Messages_Report_Dec.pdf

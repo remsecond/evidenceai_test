@@ -1,0 +1,20 @@
+{
+    "enrichment_summary": {
+        "total_threads": 1,
+        "total_messages": 2,
+        "sentiment_distribution": {
+            "positive": 1,
+            "neutral": 1,
+            "negative": 0
+        },
+        "top_topics": {
+            "feature_request": 1,
+            "technical_discussion": 2
+        },
+        "top_tags": {
+            "needs_review": 1,
+            "in_progress": 1
+        }
+    },
+    "processing_timestamp": "2025-01-01T14:03:09.102377Z"
+}

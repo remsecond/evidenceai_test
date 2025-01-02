@@ -1,48 +1,26 @@
-import argparse
+"""Report current checkpoint status."""
+
 from pathlib import Path
-from utils.checkpoint_reporter import CheckpointReporter
+from utils.checkpoint_registry import CheckpointRegistry
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate checkpoint reports')
-    parser.add_argument('--full', action='store_true', help='Generate full report')
-    parser.add_argument('--stage', help='Report on specific stage')
-    parser.add_argument('--verify', action='store_true', help='Run verification only')
-    parser.add_argument('--recommendations', action='store_true', help='Show recommendations only')
+    base_dir = Path(__file__).parent.parent
+    registry = CheckpointRegistry(base_dir)
+    status = registry.get_current_status()
     
-    args = parser.parse_args()
-    reporter = CheckpointReporter()
+    print("\nEvidenceAI Pipeline Status")
+    print("-" * 50)
+    print(f"Last Update: {status['last_update']}")
+    print(f"Current Stage: {status['current_stage']}")
+    print("\nProcessing Statistics:")
+    print(f"Messages Processed: {status['pipeline_status']['messages_processed']}")
+    print(f"Threads Identified: {status['pipeline_status']['threads_identified']}")
+    print(f"Success Rate: {status['pipeline_status']['success_rate']}%")
     
-    if args.full or not any([args.stage, args.verify, args.recommendations]):
-        print("\nGenerating full checkpoint report...")
-        report_file = reporter.generate_full_report()
-        print(f"Report saved to: {report_file}")
-        
-    if args.stage:
-        # Read the stage section from the report
-        with open(report_file) as f:
-            content = f.read()
-            start = content.find(f"### {args.stage.upper()}")
-            if start == -1:
-                print(f"Stage {args.stage} not found in report")
-            else:
-                end = content.find("###", start + 1)
-                if end == -1:
-                    end = len(content)
-                print(content[start:end])
-                
-    if args.verify:
-        valid_files, invalid_files = reporter._checkpoint_manager.verify_all_checkpoints()
-        print("\nCheckpoint Verification Results:")
-        print(f"Valid Checkpoints: {len(valid_files)}")
-        print(f"Invalid Checkpoints: {len(invalid_files)}")
-        if invalid_files:
-            print("\nInvalid checkpoints:")
-            for f in invalid_files:
-                print(f"- {f.name}")
-                
-    if args.recommendations:
-        print("\nRecommendations:")
-        print(reporter._generate_recommendations())
+    if status['pipeline_status']['last_issues']:
+        print("\nCurrent Issues:")
+        for issue in status['pipeline_status']['last_issues']:
+            print(f"- {issue}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

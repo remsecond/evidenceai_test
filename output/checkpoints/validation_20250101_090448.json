@@ -1,0 +1,18 @@
+{
+  "valid": false,
+  "errors": [
+    "Thread thread_Signal_20241220T140700: Circular reference detected: 2024-12-20T19:08:00",
+    "Thread thread_FidelityMSFTDividendtransfer_20241222T145100: Circular reference detected: 2024-12-24T15:00:00",
+    "Thread thread_ReNoResponseRequested_20241224T095700: Circular reference detected: 2024-12-28T09:01:00",
+    "Thread thread_no_subject_20241228T103600: Circular reference detected: 2024-12-28T15:50:00"
+  ],
+  "warnings": [
+    "Unusually deep thread detected"
+  ],
+  "stats": {
+    "total_threads": 56,
+    "total_messages": 276,
+    "max_depth": 11,
+    "total_participants": 229
+  }
+}

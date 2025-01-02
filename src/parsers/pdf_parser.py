@@ -42,11 +42,10 @@ class OFWParser:
         metadata = {
             'pdf_info': {
                 'pages': len(pdf.pages),
-                'created': datetime.now().isoformat()  # Placeholder for actual PDF creation date
+                'created': datetime.now().isoformat()
             }
         }
         
-        # Extract OFW-specific metadata
         patterns = {
             'generated_date': r'Generated:\s*([^\n]+)',
             'message_count': r'Number of messages:\s*(\d+)',
@@ -65,56 +64,52 @@ class OFWParser:
         messages = []
         full_text = ""
         
-        # Combine all pages
         for page in pdf.pages:
             full_text += page.extract_text() + "\n\n"
         
-        # Split into message blocks
-        message_blocks = re.split(r'Message \d+ of \d+', full_text)[1:]  # Skip header
+        message_blocks = re.split(r'Message \d+ of \d+', full_text)[1:]
         
         for i, block in enumerate(message_blocks, 1):
-            if message := self._parse_message_block(block.strip(), i):
+            if block and (message := self._parse_message_block(block.strip(), i)):
                 messages.append(message)
         
         return messages
     
     def _parse_message_block(self, block: str, index: int) -> Dict:
         """Parse a single message block."""
+        patterns = {
+            'sent': r'Sent:\s*(.*?)(?=\nFrom:|$)',
+            'from': r'From:\s*(.*?)(?=\nTo:|$)',
+            'to': r'To:\s*(.*?)(?=\nSubject:|$)',
+            'subject': r'Subject:\s*(.*?)(?=\nOn|$)',
+            'viewed': r'\(First Viewed:\s*(.*?)\)'
+        }
+        
+        message = {'index': index}
+        
         try:
-            # Extract components using regex
-            sent_match = re.search(r'Sent: (.*?)(?=\nFrom:|$)', block)
-            from_match = re.search(r'From: (.*?)(?=\nTo:|$)', block)
-            to_match = re.search(r'To: (.*?)(?=\nSubject:|$)', block)
-            subject_match = re.search(r'Subject: (.*?)(?=\nOn|$)', block)
-            viewed_match = re.search(r'\(First Viewed: (.*?)\)', block)
+            # Extract header components
+            for key, pattern in patterns.items():
+                if match := re.search(pattern, block):
+                    message[key] = match.group(1).strip()
             
-            # Split content from headers
-            content_parts = block.split('\n\n', 1)
-            content = content_parts[1] if len(content_parts) > 1 else ""
+            # Extract content - everything after headers
+            parts = block.split('\n\n', 1)
+            message['content'] = parts[1].strip() if len(parts) > 1 else ""
             
-            message = {
-                'index': index,
-                'timestamp': self._parse_timestamp(sent_match.group(1) if sent_match else None),
-                'from': from_match.group(1).strip() if from_match else None,
-                'to': to_match.group(1).strip() if to_match else None,
-                'subject': subject_match.group(1).strip() if subject_match else None,
-                'content': content.strip(),
-                'first_viewed': viewed_match.group(1).strip() if viewed_match else None
-            }
+            # Convert to standard format
+            if sent_time := message.get('sent'):
+                try:
+                    dt = datetime.strptime(sent_time, '%m/%d/%Y at %I:%M %p')
+                    message['timestamp'] = dt.isoformat()
+                except ValueError:
+                    message['timestamp'] = None
             
+            if 'from' not in message or 'timestamp' not in message:
+                return None
+                
             return message
             
         except Exception as e:
             print(f"Error parsing message {index}: {str(e)}")
-            return None
-    
-    def _parse_timestamp(self, timestamp_str: str) -> str:
-        """Parse OFW timestamp to ISO format."""
-        if not timestamp_str:
-            return None
-            
-        try:
-            dt = datetime.strptime(timestamp_str.strip(), '%m/%d/%Y at %I:%M %p')
-            return dt.isoformat()
-        except ValueError:
             return None

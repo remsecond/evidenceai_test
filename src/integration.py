@@ -1,10 +1,10 @@
-"""Integration module for the threading system."""
+"""Integration module for the EvidenceAI threading system."""
 
-import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 import json
+import logging
 
 from .parsers.pdf_parser import OFWParser
 from .threader.chain_builder import MessageThreader
@@ -12,7 +12,7 @@ from .validators.thread_validator import ThreadValidator
 from .logging.airtable_logger import AirtableLogger
 
 class ThreadingOrchestrator:
-    """Orchestrates the threading process."""
+    """Orchestrates the complete threading process."""
     
     def __init__(self, input_dir: Union[str, Path], output_dir: Union[str, Path],
                  airtable_base_id: Optional[str] = None,
@@ -61,7 +61,7 @@ class ThreadingOrchestrator:
         return logger
     
     def process_file(self, filename: str, checkpoint: bool = True) -> Dict:
-        """Process a single file through the pipeline."""
+        """Process a single file through the complete threading pipeline."""
         try:
             start_time = datetime.now()
             self.log.info(f"Starting processing of {filename}")
@@ -153,11 +153,9 @@ class ThreadingOrchestrator:
     def _save_results(self, filename: str, results: Dict, threads: Dict, 
                      metadata: Dict, validation: Dict):
         """Save final processing results."""
-        # Create results directory
         results_dir = self.output_dir / filename.replace('.pdf', '')
         results_dir.mkdir(exist_ok=True)
         
-        # Save components
         with open(results_dir / 'summary.json', 'w', encoding='utf-8') as f:
             json.dump(results, f, indent=2)
             

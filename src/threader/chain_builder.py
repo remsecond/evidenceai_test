@@ -1,9 +1,10 @@
 """Message threading and chain building module."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from typing import Dict, List, Optional, Set
 import re
+import json
 
 @dataclass
 class ThreadMetadata:
@@ -16,22 +17,42 @@ class ThreadMetadata:
     depth: int = 0
     subject: Optional[str] = None
 
+    def to_dict(self) -> Dict:
+        """Convert to dictionary for JSON serialization."""
+        data = asdict(self)
+        data['start_time'] = self.start_time.isoformat()
+        data['last_update'] = self.last_update.isoformat()
+        data['participants'] = list(self.participants)
+        return data
+
+class ThreadEncoder(json.JSONEncoder):
+    """JSON encoder for thread data."""
+    def default(self, obj):
+        if isinstance(obj, ThreadMetadata):
+            return obj.to_dict()
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        if isinstance(obj, set):
+            return list(obj)
+        return super().default(obj)
+
 class MessageThreader:
     """Handles message threading and conversation reconstruction."""
     
     def __init__(self):
-        self.threads: Dict[str, Dict] = {}
-        self.thread_metadata: Dict[str, ThreadMetadata] = {}
-        self._message_map: Dict[str, Dict] = {}
-        
+        self.threads = {}
+        self.thread_metadata = {}
+        self._message_map = {}
+    
     def process_messages(self, messages: List[Dict]) -> Dict[str, Dict]:
         """Process messages into threaded conversations."""
         try:
             # First pass: Create message map
             for msg in messages:
                 msg_id = self._generate_message_id(msg)
-                self._message_map[msg_id] = msg
-                
+                if msg_id:  # Only process valid messages
+                    self._message_map[msg_id] = msg
+            
             # Second pass: Build thread relationships
             for msg_id, msg in self._message_map.items():
                 parent_id = self._find_parent_message(msg)
@@ -54,15 +75,16 @@ class MessageThreader:
             print(f"Error processing messages: {str(e)}")
             return {}
     
-    def _generate_message_id(self, msg: Dict) -> str:
+    def _generate_message_id(self, msg: Dict) -> Optional[str]:
         """Generate unique message identifier."""
+        if not msg.get('timestamp') or not msg.get('from'):
+            return None
         timestamp = msg['timestamp'].replace(':', '').replace('-', '')
         return f"{msg['from']}_{timestamp}"
     
     def _generate_thread_id(self, msg: Dict) -> str:
         """Generate unique thread identifier."""
         subject = msg.get('subject', '').strip()
-        # Clean subject for use in ID
         clean_subject = re.sub(r'[^a-zA-Z0-9]', '', subject) if subject else 'no_subject'
         timestamp = msg['timestamp'].replace(':', '').replace('-', '')
         return f"thread_{clean_subject}_{timestamp}"
@@ -71,7 +93,7 @@ class MessageThreader:
         """Find parent message based on content and timing."""
         # Look for quoted content references
         quoted_pattern = r'On (.*?), (.*?) wrote:'
-        matches = re.findall(quoted_pattern, msg['content'])
+        matches = re.findall(quoted_pattern, msg.get('content', ''))
         
         if matches:
             # For each potential parent reference
@@ -109,10 +131,11 @@ class MessageThreader:
     def _build_thread_metadata(self):
         """Build metadata for all threads."""
         for thread_id, root in self.threads.items():
+            start_time = datetime.fromisoformat(root['timestamp'])
             metadata = ThreadMetadata(
                 thread_id=thread_id,
-                start_time=datetime.fromisoformat(root['timestamp']),
-                last_update=datetime.fromisoformat(root['timestamp']),
+                start_time=start_time,
+                last_update=start_time,
                 participants={root['from'], root['to']}
             )
             
@@ -132,9 +155,9 @@ class MessageThreader:
             metadata.subject = root.get('subject')
             self.thread_metadata[thread_id] = metadata
     
-    def get_thread_metadata(self) -> Dict[str, ThreadMetadata]:
+    def get_thread_metadata(self) -> Dict[str, Dict]:
         """Get metadata for all threads."""
-        return self.thread_metadata
+        return {k: v.to_dict() for k, v in self.thread_metadata.items()}
     
     def get_thread_statistics(self) -> Dict:
         """Calculate statistics across all threads."""
@@ -146,14 +169,15 @@ class MessageThreader:
             *[m.participants for m in self.thread_metadata.values()]
         ))
         
+        metadata_list = list(self.thread_metadata.values())
         return {
             'total_threads': len(self.threads),
             'total_messages': total_messages,
             'total_participants': total_participants,
-            'avg_thread_depth': sum(m.depth for m in self.thread_metadata.values()) / len(self.thread_metadata),
+            'avg_thread_depth': sum(m.depth for m in metadata_list) / len(metadata_list),
             'avg_messages_per_thread': total_messages / len(self.threads),
             'time_span': {
-                'start': min(m.start_time for m in self.thread_metadata.values()).isoformat(),
-                'end': max(m.last_update for m in self.thread_metadata.values()).isoformat()
+                'start': min(m.start_time for m in metadata_list).isoformat(),
+                'end': max(m.last_update for m in metadata_list).isoformat()
             }
         }

@@ -1,0 +1,6 @@
+{
+  "status": "error",
+  "filename": "OFW_Messages_Report_Dec.pdf",
+  "timestamp": "2025-01-01T09:03:43.902889",
+  "error": "Object of type ThreadMetadata is not JSON serializable"
+}

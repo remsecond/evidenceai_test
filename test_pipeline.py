@@ -94,11 +94,7 @@ def main():
     print_section("Starting Processing", '-')
     start_time = datetime.now()
     
-    results = orchestrator.process_file(
-        filename,
-        checkpoint=True,
-        export_formats=['notebooklm', 'chatgpt', 'gemini']
-    )
+    results = orchestrator.process_file(filename, checkpoint=True)
     
     processing_time = (datetime.now() - start_time).total_seconds()
     
@@ -121,13 +117,6 @@ def main():
     if thread_stats := stats.get('thread_stats'):
         print("\nDetailed Thread Statistics:")
         print_dict(thread_stats, indent=1)
-    
-    # Analyze exports
-    print_section("Export Analysis", '-')
-    if export_analysis := analyze_exports(output_dir):
-        print_dict(export_analysis)
-    else:
-        print("No exports found")
     
     # Analyze validation
     print_section("Validation Results", '-')

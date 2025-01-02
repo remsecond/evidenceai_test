@@ -79,36 +79,40 @@ class AirtableLogger:
         # If we have Airtable credentials, try to sync immediately
         if self.base_id and self.api_key:
             self.sync()
+        else:
+            self._store_locally()
     
     def sync(self) -> bool:
-        """Sync pending records to Airtable."""
+        """Sync pending records to Airtable or store locally."""
         if not self.pending_records:
             return True
             
         if not (self.base_id and self.api_key):
-            self._store_locally()
-            return False
+            return self._store_locally()
             
         try:
-            # TODO: Implement Airtable API calls when credentials are provided
+            # TODO: Implement Airtable API integration
             # For now, store locally
-            self._store_locally()
+            return self._store_locally()
+        except Exception as e:
+            print(f"Error syncing to Airtable: {str(e)}")
+            return self._store_locally()
+    
+    def _store_locally(self) -> bool:
+        """Store pending records locally for later sync."""
+        if not self.pending_records:
+            return True
+            
+        try:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = self.storage_dir / f"pending_records_{timestamp}.json"
+            
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(self.pending_records, f, indent=2)
+            
+            self.pending_records = []
             return True
             
         except Exception as e:
-            print(f"Error syncing to Airtable: {str(e)}")
-            self._store_locally()
+            print(f"Error storing records locally: {str(e)}")
             return False
-    
-    def _store_locally(self):
-        """Store pending records locally for later sync."""
-        if not self.pending_records:
-            return
-            
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        queue_file = self.storage_dir / f"queue_{timestamp}.json"
-        
-        with open(queue_file, 'w') as f:
-            json.dump(self.pending_records, f, indent=2)
-        
-        self.pending_records = []
