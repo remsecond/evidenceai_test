@@ -1,0 +1,13 @@
+PARTICIPANT INTERACTION ANALYSIS
+==============================
+
+
+Participant: Robert Moyer
+Messages Sent: 1
+Messages Received: 0
+----------------------------------------
+
+Participant: Christine Moyer
+Messages Sent: 0
+Messages Received: 1
+----------------------------------------

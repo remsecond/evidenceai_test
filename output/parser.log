@@ -1,0 +1,17 @@
+2025-01-03 23:46:59,481 - INFO - Starting to parse C:\Users\robmo\OneDrive\Documents\evidenceai_test\input\OFW_Messages_Report_Dec.pdf
+2025-01-03 23:46:59,644 - INFO - Extracted metadata: 287 messages
+2025-01-03 23:47:00,163 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:00,981 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:01,032 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:01,049 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:01,133 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:01,183 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:01,729 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:02,268 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:02,339 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:02,346 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:02,468 - WARNING - Invalid first_viewed format: Never
+2025-01-03 23:47:02,468 - INFO - Extracted 287 messages
+2025-01-03 23:47:02,475 - INFO - Found 181 conversation threads
+2025-01-03 23:47:02,476 - WARNING - Messages not in threads: {'msg_0270', 'msg_0043', 'msg_0160', 'msg_0040', 'msg_0260', 'msg_0100', 'msg_0157', 'msg_0055', 'msg_0019', 'msg_0153', 'msg_0259', 'msg_0034', 'msg_0268', 'msg_0216', 'msg_0225', 'msg_0239', 'msg_0052', 'msg_0007', 'msg_0119', 'msg_0192', 'msg_0025', 'msg_0179', 'msg_0273', 'msg_0281', 'msg_0247', 'msg_0036', 'msg_0199', 'msg_0209', 'msg_0284', 'msg_0240', 'msg_0126', 'msg_0054', 'msg_0089', 'msg_0164', 'msg_0064', 'msg_0123', 'msg_0105', 'msg_0062', 'msg_0228', 'msg_0090', 'msg_0109', 'msg_0262', 'msg_0283', 'msg_0124', 'msg_0122', 'msg_0131', 'msg_0220', 'msg_0068', 'msg_0093', 'msg_0037', 'msg_0016', 'msg_0246', 'msg_0146', 'msg_0285', 'msg_0095', 'msg_0168', 'msg_0033', 'msg_0045', 'msg_0263', 'msg_0205', 'msg_0079', 'msg_0048', 'msg_0244', 'msg_0035', 'msg_0280', 'msg_0077', 'msg_0286', 'msg_0130', 'msg_0114', 'msg_0231', 'msg_0175', 'msg_0181', 'msg_0217', 'msg_0169', 'msg_0173', 'msg_0143', 'msg_0249', 'msg_0096', 'msg_0116', 'msg_0128', 'msg_0150', 'msg_0255', 'msg_0027', 'msg_0165', 'msg_0252', 'msg_0003', 'msg_0275', 'msg_0010', 'msg_0026', 'msg_0154', 'msg_0060', 'msg_0087', 'msg_0190', 'msg_0238', 'msg_0017', 'msg_0271', 'msg_0212', 'msg_0125', 'msg_0053', 'msg_0047', 'msg_0276', 'msg_0018', 'msg_0177'}
+2025-01-03 23:47:02,485 - INFO - Saved parsed data to C:\Users\robmo\OneDrive\Documents\evidenceai_test\output\json\messages\messages_20250103_234702.json and C:\Users\robmo\OneDrive\Documents\evidenceai_test\output\json\threads\threads_20250103_234702.json

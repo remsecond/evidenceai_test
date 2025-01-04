@@ -1,0 +1,7 @@
+2025-01-03 12:35:04 - SessionManager - INFO: Session manager initialized
+2025-01-03 12:35:04 - SessionManager - INFO: Creating new session: SESSION_20250103_123504
+2025-01-03 12:35:04 - SessionManager - INFO: Scanning for input files...
+2025-01-03 12:35:04 - SessionManager - INFO: Validating environment...
+2025-01-03 12:35:04 - SessionManager - DEBUG: Free disk space: 699.7 GB
+2025-01-03 12:35:04 - SessionManager - INFO: disk_space: ✓
+2025-01-03 12:35:04 - SessionManager - INFO: input_files: ✗

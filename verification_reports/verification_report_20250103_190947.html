@@ -1,0 +1,120 @@
+
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Output Verification Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .summary { background: #f0f0f0; padding: 15px; border-radius: 5px; }
+                .summary-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                .summary-table th, .summary-table td { 
+                    border: 1px solid #ddd; 
+                    padding: 8px; 
+                    text-align: left; 
+                }
+                .summary-table th { background: #f5f5f5; }
+                .directory { margin: 20px 0; }
+                .file { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+                .valid { background: #e6ffe6; }
+                .invalid { background: #ffe6e6; }
+                .path { font-family: monospace; }
+                .issues { color: #cc0000; }
+                .nav { position: sticky; top: 0; background: white; padding: 10px 0; }
+            </style>
+        </head>
+        <body>
+        
+        <h1>Output Verification Report</h1>
+        <div class="summary">
+            <h2>Summary</h2>
+            <p>Total Files: 4</p>
+            <p>Valid Files: 2</p>
+            <p>Invalid Files: 2</p>
+        </div>
+        <table class="summary-table">
+            <tr>
+                <th>Directory</th>
+                <th>Total Files</th>
+                <th>Valid Files</th>
+                <th>Invalid Files</th>
+                <th>Status</th>
+            </tr>
+        
+            <tr>
+                <td><a href="#json_messages">json/messages</a></td>
+                <td>2</td>
+                <td>2</td>
+                <td>0</td>
+                <td style="color: green">PASS</td>
+            </tr>
+            
+            <tr>
+                <td><a href="#json_threads">json/threads</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td style="color: green">PASS</td>
+            </tr>
+            
+            <tr>
+                <td><a href="#text_notebooks">text/notebooks</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td style="color: red">FAIL</td>
+            </tr>
+            
+            <tr>
+                <td><a href="#text_summaries">text/summaries</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td style="color: red">FAIL</td>
+            </tr>
+            </table><h2>Detailed Results</h2>
+            <div class="directory" id="json_messages">
+                <h3>json/messages</h3>
+            
+                <div class="file valid">
+                    <h4>messages_20250103_190940.json</h4>
+                    <p class="path">Path: json\messages\messages_20250103_190940.json</p>
+                    <p>Size: 515 bytes</p>
+                </div>
+                <div class="file valid">
+                    <h4>parsed_messages_20250103_190940.json</h4>
+                    <p class="path">Path: json\messages\parsed_messages_20250103_190940.json</p>
+                    <p>Size: 515 bytes</p>
+                </div></div>
+            <div class="directory" id="json_threads">
+                <h3>json/threads</h3>
+            </div>
+            <div class="directory" id="text_notebooks">
+                <h3>text/notebooks</h3>
+            
+                <div class="file invalid">
+                    <h4>conversation_20250103_190940.txt</h4>
+                    <p class="path">Path: text\notebooks\conversation_20250103_190940.txt</p>
+                    <p>Size: 127 bytes</p>
+                
+                    <div class="issues">
+                        <p>Issues:</p>
+                        <ul>
+                        <li>Missing required sections: ['# Conversation Thread:', 'Date:', 'Participants:']</li>
+                        </ul>
+                    </div>
+                    </div></div>
+            <div class="directory" id="text_summaries">
+                <h3>text/summaries</h3>
+            
+                <div class="file invalid">
+                    <h4>summary_20250103_190940.txt</h4>
+                    <p class="path">Path: text\summaries\summary_20250103_190940.txt</p>
+                    <p>Size: 131 bytes</p>
+                
+                    <div class="issues">
+                        <p>Issues:</p>
+                        <ul>
+                        <li>Missing required sections: ['Key Points:', 'Statistics:']</li>
+                        </ul>
+                    </div>
+                    </div></div></body></html>

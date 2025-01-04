@@ -1,146 +1,112 @@
-import sys
-from pathlib import Path
-from datetime import datetime
+"""Test EvidenceAI processing pipeline."""
+import os
 import json
+from datetime import datetime
+from pathlib import Path
+import logging
 
-# Add parent directory to path
-sys.path.append(str(Path(__file__).parent))
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("evidenceai")
 
-from processors.file_processor import FileProcessor
-from threader.message_threader import MessageThreader
-from analyzers.thread_analyzer import ThreadAnalyzer
+def print_header():
+    """Print colorful test header."""
+    print("\033[95m==================================\033[0m")
+    print("\033[95m   EvidenceAI Pipeline Tests      \033[0m")
+    print("\033[95m==================================\033[0m")
+    print(f"Python {os.sys.version.split()[0]}")
 
-def create_stage_result(data: dict, stage: str) -> dict:
-    """Create standardized stage result structure"""
-    return {
-        'metadata': {
-            'stage': stage,
-            'timestamp': datetime.now().isoformat(),
-            'pipeline_version': '1.0.0'
-        },
-        'status': 'success',
-        'data': data,
-        'validation': {
-            'is_valid': True,
-            'checks_performed': [f'{stage}_processing', f'{stage}_validation'],
-            'warnings': []
-        }
-    }
+def print_config(input_dir, output_dir):
+    """Print test configuration."""
+    print("\033[96mTest Configuration:\033[0m")
+    print("\033[96m------------------\033[0m")
+    print(f"\033[97mInput Directory:\033[0m {input_dir}")
+    print(f"\033[97mOutput Directory:\033[0m {output_dir}")
 
-def run_pipeline():
-    """Run the complete analysis pipeline"""
-    base_dir = Path(__file__).parent.parent
-    output_dir = base_dir / "output"
-    output_dir.mkdir(exist_ok=True)
+def run_tests(base_dir):
+    """Run pipeline tests."""
+    from processors.file_processor import FileProcessor
     
     try:
-        # Find PDF file
-        input_dir = base_dir / "input"
-        pdf_files = list(input_dir.glob("*.pdf"))
-        if not pdf_files:
-            raise FileNotFoundError("No PDF files found in input directory")
+        # Initialize processor
+        processor = FileProcessor(base_dir)
         
-        pdf_path = pdf_files[0]
-        print(f"\nTesting with file: {pdf_path.name}")
+        # Process input files
+        input_dir = base_dir / "input"
+        output_dir = base_dir / "output"
         
         results = {
-            'metadata': {
-                'stage': 'pipeline',
-                'timestamp': datetime.now().isoformat(),
-                'pipeline_version': '1.0.0'
-            },
-            'status': 'success',
-            'stages': {},
-            'validation': {
-                'is_valid': True,
-                'checks_performed': [],
-                'warnings': []
-            }
+            'timestamp': datetime.now().isoformat(),
+            'files_processed': 0,
+            'errors': []
         }
         
-        # Stage 1: Parse PDF
-        print("\n=== Testing PDF Parser ===")
-        processor = FileProcessor()
-        parse_results = processor.process_file(pdf_path)
-        stage_result = create_stage_result(parse_results, 'parsing')
-        results['stages']['parsing'] = stage_result
+        # Process PDF files
+        for pdf_file in input_dir.glob('*.pdf'):
+            try:
+                logger.info(f"Processing {pdf_file.name}")
+                metadata = processor.process_pdf(pdf_file)
+                results['files_processed'] += 1
+                
+                # Extract text
+                text = processor.extract_text(pdf_file)
+                
+                # Save extracted text
+                text_file = output_dir / f"{pdf_file.stem}_text.txt"
+                with open(text_file, 'w', encoding='utf-8') as f:
+                    f.write(text)
+                
+            except Exception as e:
+                error = {
+                    'file': pdf_file.name,
+                    'error': str(e)
+                }
+                results['errors'].append(error)
+                logger.error(f"Error processing {pdf_file.name}: {str(e)}")
         
-        if parse_results['status'] != 'success':
-            raise RuntimeError(f"PDF parsing failed: {parse_results.get('error')}")
-            
-        print(f"Status: {parse_results['status']}")
-        print(f"Total messages: {len(parse_results['file_info'].get('messages', []))}")
-        print("\nSample message:")
-        print(json.dumps(parse_results['file_info']['messages'][0], indent=2))
-        
-        # Stage 2: Thread Messages
-        print("\n=== Testing Message Threading ===")
-        threader = MessageThreader()
-        thread_results = threader.thread_messages(parse_results['file_info']['messages'])
-        stage_result = create_stage_result(thread_results, 'threading')
-        results['stages']['threading'] = stage_result
-        
-        print(f"Total threads: {thread_results['stats']['total_threads']}")
-        print(f"Total messages: {thread_results['stats']['total_messages']}")
-        print("\nSample thread:")
-        first_thread_id = next(iter(thread_results['threads']))
-        print(f"Subject: {thread_results['metadata'][first_thread_id]['subject']}")
-        print(f"Messages in thread: {len(thread_results['threads'][first_thread_id])}")
-        
-        # Stage 3: Analyze Threads
-        print("\n=== Testing Thread Analysis ===")
-        analyzer = ThreadAnalyzer(thread_results)
-        analysis_results = analyzer.analyze_threads()
-        stage_result = create_stage_result(analysis_results, 'analysis')
-        results['stages']['analysis'] = stage_result
-        
-        print("\nResponse Patterns:")
-        print(f"Average response time: {analysis_results['response_patterns']['average_response_time']:.2f} hours")
-        print(f"Average thread duration: {analysis_results['response_patterns']['average_thread_duration']:.2f} hours")
-        
-        print("\nParticipant Patterns:")
-        for participant, count in analysis_results['participant_patterns']['initiatives'].items():
-            print(f"{participant}: Started {count} threads")
-        
-        # Update validation information
-        results['validation']['checks_performed'] = [
-            'pipeline_execution',
-            'stage_completion',
-            'result_validation'
-        ]
-        
-        # Save results
-        output_file = output_dir / f"test_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(output_file, 'w') as f:
+        # Save test results
+        results_file = output_dir / f"test_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        with open(results_file, 'w') as f:
             json.dump(results, f, indent=2)
             
-        print(f"\nTest results saved to: {output_file}")
+        print("\033[92m✔ Test run completed successfully!\033[0m")
         return True
         
     except Exception as e:
-        error_results = {
-            'metadata': {
-                'stage': 'pipeline',
-                'timestamp': datetime.now().isoformat(),
-                'pipeline_version': '1.0.0'
-            },
-            'status': 'error',
-            'error': str(e),
-            'validation': {
-                'is_valid': False,
-                'checks_performed': ['error_detection'],
-                'warnings': [str(e)]
-            }
-        }
-        
-        # Save error results
-        output_file = output_dir / f"test_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(output_file, 'w') as f:
-            json.dump(error_results, f, indent=2)
-            
-        print(f"\nError in pipeline: {str(e)}")
+        print(f"\033[91m✘ Test run failed: {str(e)}\033[0m")
         return False
 
-if __name__ == "__main__":
-    success = run_pipeline()
-    sys.exit(0 if success else 1)
+def main():
+    """Run main test sequence."""
+    # Get base directory
+    base_dir = Path(__file__).parent.parent
+    
+    # Ensure directories exist
+    input_dir = base_dir / "input"
+    output_dir = base_dir / "output"
+    input_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(exist_ok=True)
+    
+    # Print header
+    print_header()
+    print_config(input_dir, output_dir)
+    
+    # Run tests
+    print("\033[95mRunning tests...\033[0m")
+    print("\033[90m-----------------\033[0m")
+    
+    success = run_tests(base_dir)
+    
+    # Print results
+    print("\033[94mTest Results:\033[0m")
+    print("\033[94m-------------\033[0m")
+    if success:
+        print("\033[92m✓ Results saved to output directory\033[0m")
+    else:
+        print("\033[91m✘ Test run failed! Check the error messages above.\033[0m")
+    
+    print("\033[93mPress any key to exit...\033[0m")
+    input()
+
+if __name__ == '__main__':
+    main()

@@ -1,32 +1,18 @@
 @echo off
-title EvidenceAI Analysis Pipeline
-cls
-
-echo Starting EvidenceAI Analysis...
+echo ========================================
+echo EvidenceAI Report Generator
+echo ========================================
 echo.
 
-REM Check if Python is installed
-python --version >nul 2>&1
-if errorlevel 1 (
-    echo Error: Python is not installed or not in PATH
-    echo Please install Python and try again
-    pause
-    exit /b 1
-)
+rem Ensure Python environment is active
+call python generate_reports.py
 
-REM Run the analysis
-powershell -NoProfile -ExecutionPolicy Bypass -Command "python src/run_analysis.py"
-
-REM Check for errors
-if errorlevel 1 (
-    echo.
-    echo Error occurred during analysis
-    echo Check the output above for details
+echo.
+if %ERRORLEVEL% EQU 0 (
+    echo Report generation completed successfully!
 ) else (
-    echo.
-    echo Analysis completed successfully
+    echo Report generation failed - check error messages above.
 )
 
 echo.
-echo Press any key to exit...
-pause >nul
+pause

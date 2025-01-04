@@ -1,72 +1,115 @@
-# EvidenceAI Development Session
+# EvidenceAI Session: LLM Output Processing
+========================================
 
-## Project Status
-Last checkpoint: {LAST_CHECKPOINT_FILE}
-Current stage: {CURRENT_STAGE}
+## Overview
 
-## Directory Structure
-```
-evidenceai_test/
-├── input/                  # Raw OFW PDFs
-├── output/                 # Analysis outputs and checkpoints
-└── src/                   
-    ├── processors/        # File processing modules
-    ├── parsers/           # Document parsing modules
-    ├── threader/          # Message threading modules
-    ├── analyzers/         # Analysis modules
-    └── utils/             # Utility modules
-```
+This session focuses on converting OFW message data and custody schedules into formats optimized for NotebookLM and other LLM analysis platforms.
 
-## Pipeline Status
+## Input Files Status
 
-### File Processing Stage
-- [x] File type validation
-- [x] Metadata extraction
-- [x] Message parsing
-- [x] Data integrity checks
+Currently detected in input/:
+- OFW_Messages_Report_Dec.pdf (0.9 MB)
+- Requiring custody schedule file
 
-### Message Threading
-- [x] Thread identification
-- [x] Parent-child relationships
-- [x] Thread metadata
-- [x] Validation checks
+## Required Processing Steps
 
-### Analysis Stage
-- [x] Response time analysis
-- [x] Participant patterns
-- [x] Thread categorization
-- [ ] Advanced pattern detection
+1. Text Extraction & Cleaning
+   - Convert PDF content to clean text
+   - Standardize date/time formats
+   - Remove irrelevant system metadata
+   - Structure message threads
 
-## Current Focus
-Stage: {CURRENT_STAGE}
-Messages Processed: {MESSAGE_COUNT}
-Threads Identified: {THREAD_COUNT}
+2. Data Organization
+   - Message chronological sorting
+   - Thread relationship mapping
+   - Participant identification
+   - Event timeline construction
 
-## Session Start Instructions
+3. NotebookLM Format Preparation
+   - Split content into appropriate chunk sizes
+   - Add metadata headers
+   - Create contextual summaries
+   - Generate embeddings
 
-1. Check environment:
-```powershell
-python src/test_pipeline.py
-```
+4. Analysis Format Generation
+   - Create timeline_analysis.txt
+     - Key events
+     - Date patterns
+     - Communication trends
+   
+   - Generate communication_patterns.json
+     - Message frequency
+     - Response patterns
+     - Topic clustering
+   
+   - Build participant_summary.json
+     - Participant roles
+     - Interaction patterns
+     - Communication styles
+   
+   - Compile statistical_summary.json
+     - Message volumes
+     - Response times
+     - Topic distribution
+   
+   - Produce final_report.pdf
+     - Executive summary
+     - Key findings
+     - Pattern analysis
+     - Recommendations
 
-2. Review last checkpoint:
-```powershell
-python src/report_checkpoints.py
-```
+## Session Requirements
 
-3. Choose next step:
-- Continue from last checkpoint
-- Start fresh with new component
-- Run tests on existing components
+### File Processing
+- Maintain original message context
+- Preserve timestamp accuracy
+- Handle encoded characters
+- Clean formatting artifacts
 
-## Development Guidelines
-1. Work on one track at a time
-2. Verify checkpoints after each major change
-3. Run tests before ending session
-4. Document any new requirements or insights
+### Data Structure
+- Thread ID mapping
+- Parent-child relationships
+- Cross-reference capabilities
+- Temporal alignment
 
-## Questions for Session Start
-1. Which stage needs attention next?
-2. Are there any validation issues to address?
-3. What improvements are needed in current stage?
-4. What is the priority for next development phase?
+### Output Format
+- NotebookLM compatibility
+  - Chunk size: 1000-1500 tokens
+  - Clear section delineation
+  - Embedded metadata
+  - Context preservation
+
+- LLM Analysis Ready
+  - JSON standardization
+  - Clean text formatting
+  - Structured relationships
+  - Temporal markers
+
+## Completion Criteria
+
+1. All output files generated:
+   - timeline_analysis.txt
+   - communication_patterns.json
+   - participant_summary.json
+   - statistical_summary.json
+   - final_report.pdf
+
+2. Format Validation:
+   - NotebookLM import test
+   - JSON schema validation
+   - UTF-8 encoding check
+   - Structure verification
+
+3. Content Verification:
+   - Message integrity
+   - Timeline accuracy
+   - Relationship mapping
+   - Pattern identification
+
+## Next Steps
+
+1. Validate input files
+2. Initialize processing pipeline
+3. Generate output formats
+4. Verify NotebookLM compatibility
+5. Test LLM analysis capabilities

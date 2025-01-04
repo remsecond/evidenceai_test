@@ -1,0 +1,7 @@
+2025-01-03 23:40:19,774 - INFO - Starting PDF parsing...
+2025-01-03 23:40:19,775 - INFO - Processing file: C:\Users\robmo\OneDrive\Documents\evidenceai_test\input\OFW_Messages_Report_Dec.pdf
+2025-01-03 23:40:19,775 - INFO - Starting to parse C:\Users\robmo\OneDrive\Documents\evidenceai_test\input\OFW_Messages_Report_Dec.pdf
+2025-01-03 23:40:22,680 - INFO - Saved parsed data to C:\Users\robmo\OneDrive\Documents\evidenceai_test\output\json\messages\parsed_messages_20250103_234022.json
+2025-01-03 23:40:22,680 - INFO - Successfully parsed OFW_Messages_Report_Dec.pdf
+2025-01-03 23:40:22,681 - INFO - Structuring data...
+2025-01-03 23:40:22,683 - ERROR - Pipeline error: 'senders'

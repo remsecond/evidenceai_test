@@ -1,0 +1,9 @@
+2025-01-03 12:36:22 - SessionManager - INFO: Session manager initialized
+2025-01-03 12:36:22 - SessionManager - INFO: Creating new session: SESSION_20250103_123622
+2025-01-03 12:36:22 - SessionManager - INFO: Scanning for input files...
+2025-01-03 12:36:22 - SessionManager - INFO: Found file: OFW_Messages_Report_Dec.pdf (0.9 MB)
+2025-01-03 12:36:23 - SessionManager - INFO: Validating environment...
+2025-01-03 12:36:23 - SessionManager - DEBUG: Free disk space: 699.7 GB
+2025-01-03 12:36:23 - SessionManager - INFO: disk_space: ✓
+2025-01-03 12:36:23 - SessionManager - INFO: input_dir: ✓
+2025-01-03 12:36:23 - SessionManager - INFO: input_files: ✓

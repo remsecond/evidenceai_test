@@ -1,0 +1,20 @@
+SUGGESTED ANALYSIS PROMPTS
+========================
+
+1. COMMUNICATION PATTERNS
+   Analyze the frequency and timing of messages to identify:
+   - Peak communication periods
+   - Response time patterns
+   - Thread development and closure
+
+2. PARTICIPANT DYNAMICS
+   Examine the interaction patterns between participants:
+   - Message initiation patterns
+   - Response behaviors
+   - Thread participation
+
+3. CONTENT ANALYSIS
+   Review message content to identify:
+   - Common topics and themes
+   - Communication tone
+   - Resolution patterns

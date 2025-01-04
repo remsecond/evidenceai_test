@@ -1,0 +1,65 @@
+{
+    "version": "1.0.0",
+    "directories": {
+        "input": "input",
+        "output": "output",
+        "archive": "archives",
+        "logs": "logs",
+        "temp": "temp"
+    },
+    "pipeline": {
+        "stages": {
+            "validation": {
+                "enabled": true,
+                "required": true
+            },
+            "metadata": {
+                "enabled": true,
+                "required": true
+            },
+            "processing": {
+                "enabled": true,
+                "required": true
+            },
+            "analysis": {
+                "enabled": true,
+                "required": false
+            },
+            "reporting": {
+                "enabled": true,
+                "required": false
+            }
+        },
+        "options": {
+            "auto_backup": true,
+            "compress_output": true,
+            "delete_temp": true
+        }
+    },
+    "file_types": {
+        "allowed": [".pdf", ".docx", ".txt"],
+        "primary": ".pdf"
+    },
+    "logging": {
+        "level": "INFO",
+        "max_size": 10485760,
+        "backup_count": 5,
+        "format": "%(asctime)s - %(levelname)s - %(message)s"
+    },
+    "ui": {
+        "show_progress": true,
+        "color_output": true,
+        "detailed_errors": true
+    },
+    "backup": {
+        "auto_backup": true,
+        "backup_interval": 86400,
+        "keep_versions": 5,
+        "compress": true
+    },
+    "notifications": {
+        "enabled": true,
+        "show_warnings": true,
+        "show_success": true
+    }
+}

@@ -1,0 +1,24 @@
+Communication Summary
+===================
+
+Key Points:
+- Total Messages: 287
+- Active Participants: 2
+- Average Response Time: 2.5 hours
+
+Statistics:
+- Participant Activity:
+  * Robert Moyer: 158 messages
+  * Christine Moyer: 129 messages
+
+- Top Conversation Topics:
+  * Adrian: 23 messages
+  * Fidelity - MSFT Dividend transfer: 23 messages
+  * Safeco/Fidelity: 20 messages
+  * What Happened Today: 19 messages
+  * No Response Requested: 19 messages
+
+Response Time Analysis:
+- Average: 2.5 hours
+- Fastest: 0 minutes
+- Slowest: 2.2 days

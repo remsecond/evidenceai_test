@@ -2,4 +2,6 @@ Git Hub Token: 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
 
 Brave Search: BSADBsDtuMXi1C6fHL3DBd2wuLvBPES
 
+ChatGPT: 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
+
 claude-desktop-config.json

@@ -1,0 +1,3 @@
+@echo off
+echo Testing Complete Pipeline...
+python test_complete_pipeline.py

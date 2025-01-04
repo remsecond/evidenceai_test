@@ -1,0 +1,3 @@
+@echo off
+echo Starting EvidenceAI Control Panel...
+python evidenceai_menu.py

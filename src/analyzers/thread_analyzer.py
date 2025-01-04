@@ -1,152 +1,65 @@
-from typing import Dict, List, Tuple
+import argparse
+import json
+from pathlib import Path
 from datetime import datetime
-from collections import defaultdict
-import re
+import logging
 
-class ThreadAnalyzer:
-    """Analyzes threaded messages to extract patterns and insights"""
+def analyze_threads(messages):
+    threads = []
+    current_thread = None
     
-    def __init__(self, threaded_data: Dict):
-        self.threads = threaded_data['threads']
-        self.metadata = threaded_data['metadata']
-        
-    def analyze_threads(self) -> Dict:
-        """
-        Performs comprehensive analysis of threaded messages.
-        Returns dictionary of analysis results.
-        """
-        response_patterns = self._analyze_response_patterns()
-        topic_patterns = self._analyze_topic_patterns()
-        participant_patterns = self._analyze_participant_patterns()
-        
-        return {
-            'metadata': {
-                'stage': 'analysis',
-                'timestamp': datetime.now().isoformat(),
-                'pipeline_version': '1.0.0'
-            },
-            'status': 'success',
-            'response_patterns': response_patterns,
-            'topic_patterns': topic_patterns,
-            'participant_patterns': participant_patterns,
-            'validation': {
-                'is_valid': True,
-                'checks_performed': ['response_analysis', 'topic_analysis', 'participant_analysis'],
-                'warnings': []
-            }
-        }
+    for msg in sorted(messages, key=lambda x: x['timestamp']):
+        if not current_thread or not _belongs_to_thread(msg, current_thread):
+            if current_thread:
+                threads.append(current_thread)
+            current_thread = {'messages': [msg], 'participants': {msg['from'], msg['to']}}
+        else:
+            current_thread['messages'].append(msg)
+            current_thread['participants'].update({msg['from'], msg['to']})
     
-    def _analyze_response_patterns(self) -> Dict:
-        """Analyzes response times and patterns within threads"""
-        response_times = []
-        thread_durations = []
-        message_intervals = defaultdict(list)
-        
-        for thread_id, messages in self.threads.items():
-            # Sort messages by timestamp
-            sorted_msgs = sorted(messages, key=lambda x: x['timestamp'] if x['timestamp'] else '0')
-            
-            # Calculate response times
-            for i in range(1, len(sorted_msgs)):
-                curr_msg = sorted_msgs[i]
-                prev_msg = sorted_msgs[i-1]
+    if current_thread:
+        threads.append(current_thread)
+    
+    return threads
+
+def _belongs_to_thread(message, thread):
+    return (
+        message['subject'].startswith('Re: ') and 
+        message['subject'][4:] == thread['messages'][0]['subject']
+    ) or any(p in message['content'] for p in thread['participants'])
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', type=int, required=True)
+    args = parser.parse_args()
+    
+    base_dir = Path(__file__).parent.parent.parent
+    processed_dir = base_dir / 'output' / 'processed'
+    threads_dir = base_dir / 'output' / 'threads'
+    threads_dir.mkdir(exist_ok=True)
+    
+    if args.mode == 1:  # Generate new
+        for processed in processed_dir.glob('*_processed.json'):
+            with open(processed) as f:
+                data = json.load(f)
                 
-                if curr_msg['timestamp'] and prev_msg['timestamp']:
-                    curr_time = datetime.fromisoformat(curr_msg['timestamp'])
-                    prev_time = datetime.fromisoformat(prev_msg['timestamp'])
-                    response_time = (curr_time - prev_time).total_seconds() / 3600  # hours
-                    response_times.append(response_time)
-                    
-                    # Track intervals by participant pair
-                    participant_pair = tuple(sorted([curr_msg['from'], prev_msg['from']]))
-                    message_intervals[participant_pair].append(response_time)
+            threads = analyze_threads(data['messages'])
             
-            # Calculate thread duration
-            if len(sorted_msgs) > 1:
-                start_time = datetime.fromisoformat(sorted_msgs[0]['timestamp'])
-                end_time = datetime.fromisoformat(sorted_msgs[-1]['timestamp'])
-                duration = (end_time - start_time).total_seconds() / 3600  # hours
-                thread_durations.append(duration)
-        
-        # Calculate statistics
-        stats = {
-            'average_response_time': sum(response_times) / len(response_times) if response_times else 0,
-            'median_response_time': sorted(response_times)[len(response_times)//2] if response_times else 0,
-            'average_thread_duration': sum(thread_durations) / len(thread_durations) if thread_durations else 0,
-            'participant_response_times': {
-                '_'.join(pair): {
-                    'average': sum(times) / len(times) if times else 0,
-                    'count': len(times)
-                }
-                for pair, times in message_intervals.items()
-            }
-        }
-        
-        return stats
+            output_file = threads_dir / f"{processed.stem}_threads.json"
+            with open(output_file, 'w') as f:
+                json.dump({
+                    'source': processed.name,
+                    'analyzed_at': datetime.now().isoformat(),
+                    'thread_count': len(threads),
+                    'threads': threads
+                }, f, indent=2)
     
-    def _analyze_topic_patterns(self) -> Dict:
-        """Analyzes topic patterns and transitions within threads"""
-        topic_frequencies = defaultdict(int)
-        topic_transitions = defaultdict(int)
-        
-        for thread_id, messages in self.threads.items():
-            # Count topic frequencies
-            subject = self.metadata[thread_id]['subject']
-            if subject:
-                topic_frequencies[subject.lower()] += 1
-            
-            # Analyze topic transitions between threads
-            for msg in messages:
-                content = msg.get('content', '').lower()
-                # Look for topic indicators
-                topic_indicators = [
-                    'regarding',
-                    'about',
-                    'subject',
-                    'matter',
-                    'issue'
-                ]
-                for indicator in topic_indicators:
-                    if indicator in content:
-                        # Extract potential topic transition
-                        pattern = f"{indicator}\\s+([\\w\\s]+)"
-                        matches = re.findall(pattern, content)
-                        for match in matches:
-                            topic_transitions[match.strip()] += 1
-        
-        return {
-            'topic_frequencies': dict(topic_frequencies),
-            'topic_transitions': dict(topic_transitions)
-        }
-    
-    def _analyze_participant_patterns(self) -> Dict:
-        """Analyzes participant interaction patterns"""
-        participant_interactions = defaultdict(lambda: defaultdict(int))
-        participant_initiatives = defaultdict(int)  # Who starts threads
-        participant_responses = defaultdict(int)    # Who responds
-        
-        for thread_id, messages in self.threads.items():
-            # Track thread initiator
-            if messages:
-                initiator = messages[0]['from']
-                participant_initiatives[initiator] += 1
-            
-            # Track interactions
-            for i in range(1, len(messages)):
-                curr_msg = messages[i]
-                prev_msg = messages[i-1]
-                
-                # Count responses
-                participant_responses[curr_msg['from']] += 1
-                
-                # Track who responds to whom
-                participant_interactions[prev_msg['from']][curr_msg['from']] += 1
-        
-        return {
-            'interactions': {
-                from_participant: dict(to_participants)
-                for from_participant, to_participants in participant_interactions.items()
-            },
-            'initiatives': dict(participant_initiatives),
-            'responses': dict(participant_responses)
-        }
+    elif args.mode == 2:  # Update existing
+        # Implement update logic
+        pass
+    elif args.mode == 3:  # View statistics
+        # Show thread statistics
+        pass
+
+if __name__ == '__main__':
+    main()
